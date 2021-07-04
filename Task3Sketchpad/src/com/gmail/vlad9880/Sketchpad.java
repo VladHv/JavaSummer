@@ -9,14 +9,14 @@ import java.util.List;
 
 public class Sketchpad {
 
-    private List<Record> members = new ArrayList<>();
+    private List<Record> sketchpad = new ArrayList<>();
 
     public void addToSketchpad (Record newMember){
-        members.add(newMember);
+        sketchpad.add(newMember);
     }
 
     public String getAllMembersInString() {
-        return members.toString();
+        return sketchpad.toString();
     }
 
 }

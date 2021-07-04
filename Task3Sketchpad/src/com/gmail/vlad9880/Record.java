@@ -8,7 +8,11 @@ public class Record {
 
     private String name;
     private String surname;
+    private String shortName;
     private String nickname;
+    private Group group;
+    private String email;
+
 
     public String getName() {
         return name;
@@ -26,13 +30,36 @@ public class Record {
         this.nickname = nickname;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setGroup(String group) {
+        if (group.equals("W")) {
+            this.group = Group.WORK;
+        } else if (group.equals("F")) {
+            this.group = Group.FAMILY;
+        } else if (group.equals("M")) {
+            this.group = Group.MATES;
+        } else {
+            this.group = Group.SERVICES;
+        }
+    }
+
+    public void generateShortName() {
+        shortName = surname + " " + name.charAt(0) + ".";
+    }
+
     @Override
     public String toString() {
-        return "Record [" +
-                "name: " + name +
-                ", surname: " + surname +
-                ", nickname: " + nickname +
-                "]";
+        return "Record{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", shortName='" + shortName + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", group=" + group +
+                ", email='" + email + '\'' +
+                '}';
     }
 
 }

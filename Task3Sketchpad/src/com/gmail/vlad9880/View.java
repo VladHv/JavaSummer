@@ -11,6 +11,8 @@ public class View {
     public static final String INPUT_NICKNAME = "Nickname: ";
     public static final String WRONG_INPUT = "Unacceptable value. Try again!\n";
     public static final String MEMBER_ADDED = " added to your sketchpad!\n";
+    public static final String CHOOSE_GROUP = "Choose group ( \"W\" for Work, \"F\" for Family, \"M\" for Mates, \"S\" for Services ):";
+    public static final String INPUT_EMAIL = "Email: ";
 
 
     public void printMessage(String message) {
