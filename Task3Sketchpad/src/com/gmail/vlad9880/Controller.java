@@ -28,18 +28,14 @@ public class Controller {
     public void processUser() {
         Scanner sc = new Scanner(System.in);
 
-        for (int i = 0; i < 2; i++) {
-            new Record();
-            record.setName(inputName(sc));
-            record.setSurname(inputSurname(sc));
-            record.generateShortName();
-            record.setNickname(inputNickname(sc));
-            record.setGroup(chooseGroup(sc));
-            record.setEmail(inputEmail(sc));
-            sketchpad.addToSketchpad(record);
-            view.printMessage(record.getName() + View.MEMBER_ADDED);
-        }
-
+        record.setName(inputName(sc));
+        record.setSurname(inputSurname(sc));
+        record.generateShortName();
+        record.setNickname(inputNickname(sc));
+        record.setGroup(chooseGroup(sc));
+        record.setEmail(inputEmail(sc));
+        sketchpad.addRecord(record.toString());
+        view.printMessage(record.getName() + View.MEMBER_ADDED);
 
         view.printMessage(sketchpad.getAllMembersInString());
 
@@ -77,7 +73,7 @@ public class Controller {
     private String chooseGroup(Scanner sc) {
         String res;
         view.printMessage(View.CHOOSE_GROUP);
-        while (!(res = sc.next()).matches(REGEX_GROUP)) {
+        while (!(res = sc.next().toUpperCase()).matches(REGEX_GROUP)) {
             view.printMessage(View.WRONG_INPUT + View.CHOOSE_GROUP);
         }
         return res;
