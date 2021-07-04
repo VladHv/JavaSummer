@@ -7,9 +7,9 @@ package com.gmail.vlad9880;
 public class Main {
     public static void main(String[] args) {
         View view = new View();
-        SketchpadMember sketchpadMember = new SketchpadMember();
+        Record record = new Record();
         Sketchpad sketchpad = new Sketchpad();
-        Controller controller = new Controller(view, sketchpadMember, sketchpad);
+        Controller controller = new Controller(view, record, sketchpad);
 
         controller.processUser();
     }

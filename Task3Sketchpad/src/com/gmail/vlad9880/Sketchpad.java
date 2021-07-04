@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Sketchpad {
 
-    private List<SketchpadMember> members = new ArrayList<>();
+    private List<Record> members = new ArrayList<>();
 
-    public void addToSketchpad (SketchpadMember newMember){
+    public void addToSketchpad (Record newMember){
         members.add(newMember);
     }
 

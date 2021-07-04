@@ -4,7 +4,7 @@ package com.gmail.vlad9880;
  * Created by Vlad Herasimov on 03.07.2021
  */
 
-public class SketchpadMember {
+public class Record {
 
     private String name;
     private String surname;
@@ -28,7 +28,7 @@ public class SketchpadMember {
 
     @Override
     public String toString() {
-        return "Member [" +
+        return "Record [" +
                 "name: " + name +
                 ", surname: " + surname +
                 ", nickname: " + nickname +

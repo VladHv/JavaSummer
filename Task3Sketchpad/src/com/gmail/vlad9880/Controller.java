@@ -9,23 +9,23 @@ import java.util.Scanner;
 public class Controller {
 
     View view;
-    SketchpadMember sketchpadMember;
+    Record record;
     Sketchpad sketchpad;
 
-    public Controller(View view, SketchpadMember sketchpadMember, Sketchpad sketchpad) {
+    public Controller(View view, Record record, Sketchpad sketchpad) {
         this.view = view;
-        this.sketchpadMember = sketchpadMember;
+        this.record = record;
         this.sketchpad = sketchpad;
     }
 
     public void processUser() {
         Scanner sc = new Scanner(System.in);
 
-        sketchpadMember.setName(inputName(sc));
-        sketchpadMember.setSurname(inputSurname(sc));
-        sketchpadMember.setNickname(inputNickname(sc));
-        sketchpad.addToSketchpad(sketchpadMember);
-        view.printMessage(sketchpadMember.getName() + View.MEMBER_ADDED);
+        record.setName(inputName(sc));
+        record.setSurname(inputSurname(sc));
+        record.setNickname(inputNickname(sc));
+        sketchpad.addToSketchpad(record);
+        view.printMessage(record.getName() + View.MEMBER_ADDED);
 
         view.printMessage(sketchpad.getAllMembersInString());
 
