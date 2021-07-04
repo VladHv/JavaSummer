@@ -14,6 +14,23 @@ public class Record {
     private String email;
 
 
+    public void generateShortName() {
+        shortName = surname + " " + name.charAt(0) + ".";
+    }
+
+    public void setGroup(String group) {
+        if (group.equals("W")) {
+            this.group = Group.WORK;
+        } else if (group.equals("F")) {
+            this.group = Group.FAMILY;
+        } else if (group.equals("M")) {
+            this.group = Group.MATES;
+        } else {
+            this.group = Group.SERVICES;
+        }
+    }
+
+
     public String getName() {
         return name;
     }
@@ -34,21 +51,6 @@ public class Record {
         this.email = email;
     }
 
-    public void setGroup(String group) {
-        if (group.equals("W")) {
-            this.group = Group.WORK;
-        } else if (group.equals("F")) {
-            this.group = Group.FAMILY;
-        } else if (group.equals("M")) {
-            this.group = Group.MATES;
-        } else {
-            this.group = Group.SERVICES;
-        }
-    }
-
-    public void generateShortName() {
-        shortName = surname + " " + name.charAt(0) + ".";
-    }
 
     @Override
     public String toString() {
@@ -62,4 +64,12 @@ public class Record {
                 '}';
     }
 
+    //for tests
+    public Group getGroup() {
+        return group;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
 }
