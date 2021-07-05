@@ -32,6 +32,23 @@ public class Record {
     }
 
 
+    public void generateShortName() {
+        shortName = surname + " " + name.charAt(0) + ".";
+    }
+
+    public void setGroup(String group) {
+        if (group.equals("W")) {
+            this.group = Group.WORK;
+        } else if (group.equals("F")) {
+            this.group = Group.FAMILY;
+        } else if (group.equals("M")) {
+            this.group = Group.MATES;
+        } else {
+            this.group = Group.SERVICES;
+        }
+    }
+
+
     public String getName() {
         return name;
     }
