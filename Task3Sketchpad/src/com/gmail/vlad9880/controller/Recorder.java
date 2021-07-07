@@ -11,7 +11,7 @@ import static com.gmail.vlad9880.view.TextConstant.*;
  * Created by Vlad Herasimov on 03.07.2021
  */
 
-public class InputRecord {
+public class Recorder {
 
     private View view;
     private Scanner sc;
@@ -19,13 +19,14 @@ public class InputRecord {
     private String firstName;
     private String login;
 
-    public InputRecord(View view, Scanner sc) {
+    public Recorder(View view, Scanner sc) {
         this.view = view;
         this.sc = sc;
     }
 
     public void inputRecord() {
-        UtilityController utilityController = new UtilityController(sc, view);
+        UtilityController utilityController =
+                new UtilityController(sc, view);
         String regex = (String.valueOf(View.bundle.getLocale()).equals("ua"))
                 ? REGEX_NAME_UKR : REGEX_NAME_LAT;
 
@@ -34,5 +35,20 @@ public class InputRecord {
 
         this.login =
                 utilityController.inputStringValueWithScanner(LOGIN_DATA, REGEX_LOGIN);
+    }
+
+    public void inputLogin() {
+        UtilityController utilityController =
+                new UtilityController(sc, view);
+        this.login =
+                utilityController.inputStringValueWithScanner(LOGIN_DATA, REGEX_LOGIN);
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLogin() {
+        return login;
     }
 }

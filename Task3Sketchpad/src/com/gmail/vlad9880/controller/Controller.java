@@ -5,6 +5,8 @@ package com.gmail.vlad9880.controller;
  */
 
 import com.gmail.vlad9880.model.Model;
+import com.gmail.vlad9880.model.entity.NotUniqueLoginException;
+import com.gmail.vlad9880.model.entity.Sketchpad;
 import com.gmail.vlad9880.view.View;
 
 import java.util.Scanner;
@@ -20,10 +22,28 @@ public class Controller {
     }
 
     public void processUser() {
-        Scanner sc = new Scanner(System.in);
-        InputRecord inputRecord = new InputRecord(view, sc);
-        inputRecord.inputRecord();
 
+        Scanner sc = new Scanner(System.in);
+        Recorder recorder = new Recorder(view, sc);
+        recorder.inputRecord();
+        Sketchpad sketchpad = getSketchpad(recorder);
+        System.out.println(sketchpad);
+
+    }
+
+    private Sketchpad getSketchpad (Recorder recorder) {
+        Sketchpad sketchpad = null;
+        while(true) {
+            try {
+                sketchpad = new Sketchpad(recorder.getFirstName(), recorder.getLogin());
+                break;
+            } catch (NotUniqueLoginException e) {
+                e.printStackTrace();
+                System.out.println("Not unique login " + e.getLogin());
+                recorder.inputLogin();
+            }
+        }
+        return sketchpad;
     }
 
 }
