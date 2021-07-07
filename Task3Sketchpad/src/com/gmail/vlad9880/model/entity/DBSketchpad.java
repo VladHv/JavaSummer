@@ -17,10 +17,6 @@ public enum DBSketchpad {
         this.login = login;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
     public String getLogin() {
         return login;
     }
