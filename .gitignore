@@ -2,6 +2,7 @@
 *.iws
 *.ipr
 .idea/
+out/
 
 # Compiled class file
 *.class
