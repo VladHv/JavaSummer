@@ -8,7 +8,7 @@ public class Main {
         return false;
     }
 
-    public static void main(String[] args) throws CloneNotSupportedException {
+    public static void main(String[] args) {
 
         Student student = new Student("Vlad", 23, "Summer", new Faculty("Equipment", "ADD"));
         Student student2 = new Student("Alexa", 23, "Summer", new Faculty("Psychology", "FSO"));
@@ -17,7 +17,12 @@ public class Main {
 
         System.out.println(student);
 
-        Faculty f = student.getFaculty();
+        Faculty f = null;
+        try {
+            f = student.getFaculty();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         f.setDepartment("FSO");
 
         System.out.println(student);
