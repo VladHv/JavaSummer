@@ -38,7 +38,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
         localeInterceptor.setParamName("lang");
 
-
         registry.addInterceptor(localeInterceptor).addPathPatterns("/*");
     }
 
