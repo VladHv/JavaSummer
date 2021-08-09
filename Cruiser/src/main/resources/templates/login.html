@@ -33,7 +33,7 @@
     <form name='f' action="login" method='POST'>
         <table>
             <tr>
-                <td th:utext="#{label.userName}"></td>
+                <td th:utext="#{label.email}"></td>
                 <td><input type='text' name='username' value=''></td>
             </tr>
             <tr>
@@ -41,7 +41,9 @@
                 <td><input type='password' name='password' /></td>
             </tr>
             <tr>
-                <td><input name="submit" type="submit" value="submit" /></td>
+                <td>
+                <button type="submit" class="btn btn-primary" th:utext="#{label.submit}"></button>
+                </td>
             </tr>
         </table>
     </form>
