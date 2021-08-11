@@ -1,9 +1,11 @@
 package com.project.cruiser.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import com.project.cruiser.entity.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
@@ -16,7 +18,13 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        final String ROLE_PREFIX = "ROLE_";
+
+        Collection<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+
+        list.add(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole()));
+
+        return list;
     }
 
     @Override

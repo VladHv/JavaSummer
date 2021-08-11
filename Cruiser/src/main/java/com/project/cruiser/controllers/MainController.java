@@ -1,5 +1,6 @@
 package com.project.cruiser.controllers;
 
+import com.project.cruiser.entity.RoleType;
 import com.project.cruiser.entity.User;
 import com.project.cruiser.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class MainController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        user.setRole(RoleType.USER);
 
         userRepository.save(user);
 
