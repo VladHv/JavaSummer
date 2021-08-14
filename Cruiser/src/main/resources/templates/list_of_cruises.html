@@ -29,8 +29,38 @@
         <a type="submit" th:href="@{reg_form}" th:utext="#{label.reg}" sec:authorize="isAnonymous()"></a>
     </div>
 </div>
+<div th:switch="${cruises}">
+    <h2 th:case="null" th:utext="label.cruises.notFound"></h2>
+    <div th:case="*">
+        <h2 th:utext="#{label.cruisesList}"></h2>
+        <table border="3">
+            <thead>
+            <tr>
+                <th th:utext="#{label.id}"></th>
+                <th th:utext="#{label.passCapacity}"></th>
+                <th th:utext="#{label.route}"></th>
+                <th th:utext="#{label.start}"></th>
+                <th th:utext="#{label.end}"></th>
+            </tr>
+            </thead>
 
-<h1 th:utext="#{label.cruisesList}"></h1>
+            <tbody>
+                <tr th:each="cruise : ${cruises}">
+                    <td th:text="${cruise.id}"></td>
+                    <td th:text="${cruise.passCapacity}"></td>
+                    <td th:text="${cruise.route}"></td>
+                    <td th:text="${cruise.start}"></td>
+                    <td th:text="${cruise.end}"></td>
+                    <td sec:authorize="hasRole('ADMIN')"><a th:href="@{cruise_update/{id}(id=${cruise.id})}" th:utext="#{label.update}"></a></td>
+                    <td sec:authorize="hasRole('ADMIN')"><a th:href="@{cruise_delete/{id}(id=${cruise.id})}" th:utext="#{label.delete}"></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p sec:authorize="hasRole('ADMIN')"><a th:href="@{cruise_create}" th:utext="#{label.create}"></a></p>
+
+</div>
+
 
 </body>
 </html>

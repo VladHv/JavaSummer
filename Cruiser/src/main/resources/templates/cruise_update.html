@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="#{label.update.cruise}"></title>
+</head>
+<body>
+<div style="padding:5px;margin:5px 0px;background:#ccc;">
+    <div style="text-align: right">
+        <a th:href="@{/cruise_update?lang=en}">EN</a>
+        &nbsp;|&nbsp;
+        <a th:href="@{/cruise_update?lang=ua}">UA</a>
+    </div>
+    <div style="text-align: left">
+        <a th:href="@{/main}" th:utext="#{label.home}"></a>
+        &nbsp;|&nbsp;
+        <a th:href="@{/list_of_cruises}" th:utext="#{label.cruisesList}"></a>
+        &nbsp;|&nbsp;
+        <a sec:authorize="isAuthenticated()" th:href="@{/user_info}" th:utext="#{label.userInfo}"></a>
+        &nbsp;|&nbsp;
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/booking_list}" th:utext="#{label.listBook}"></a>
+        &nbsp;|&nbsp;
+        <a sec:authorize="isAuthenticated()" th:href="@{/logout}" th:utext="#{label.logOut}"></a>
+        &nbsp;|&nbsp;
+        <a type="submit" th:href="@{login}" th:utext="#{label.submit}" sec:authorize="isAnonymous()"></a>
+        &nbsp;|&nbsp;
+        <a type="submit" th:href="@{reg_form}" th:utext="#{label.reg}" sec:authorize="isAnonymous()"></a>
+    </div>
+</div>
+
+<h1 th:utext="#{label.update.cruise}"></h1>
+
+<form action="#" th:action="@{/cruise_update}" th:object="${cruise}" method="post">
+    <label for="id" th:utext="#{label.id}"></label>
+    <input readonly type="number" th:field="*{id}" id="id">
+    <label for="passCapacity" th:utext="#{label.passCapacity}"></label>
+    <input type="number" th:field="*{passCapacity}" id="passCapacity">
+    <label for="route" th:utext="#{label.route}"></label>
+    <input type="text" th:field="*{route}" id="route">
+    <label for="start" th:utext="#{label.start}"></label>
+    <input type="datetime-local" th:field="*{start}" id="start">
+    <label for="end" th:utext="#{label.end}"></label>
+    <input type="datetime-local" th:field="*{end}" id="end">
+    <button type="submit" th:utext="#{label.update}"></button>
+</form>
+
+</body>
+</html>

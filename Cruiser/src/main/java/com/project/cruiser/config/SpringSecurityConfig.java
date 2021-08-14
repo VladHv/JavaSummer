@@ -12,17 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import javax.sql.DataSource;
-
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private DataSource dataSource;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -55,10 +48,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/main", "/list_of_cruises").permitAll()
-                .antMatchers("/login", "/reg_form", "/process_register").anonymous()
-                .antMatchers("/user_info").authenticated()
-                .antMatchers("/booking_list/**").hasAuthority(ROLE_PREFIX + RoleType.ADMIN)
+                .antMatchers("/", "/main", "/list_of_cruises")
+                    .permitAll()
+                .antMatchers("/login", "/reg_form", "/process_register")
+                    .anonymous()
+                .antMatchers("/user_info")
+                    .authenticated()
+                .antMatchers("/booking_list/**", "/cruise_create", "/cruise_delete/**", "/cruise_update")
+                    .hasAuthority(ROLE_PREFIX + RoleType.ADMIN)
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
