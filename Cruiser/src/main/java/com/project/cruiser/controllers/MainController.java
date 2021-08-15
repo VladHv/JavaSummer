@@ -23,11 +23,6 @@ public class MainController {
         return "login";
     }
 
-    @RequestMapping("/user_info")
-    public String getUserInfo(Model model) {
-        return "user_info";
-    }
-
     @RequestMapping("/booking_list")
     public String getBookings(Model model) {
         return "booking_list";

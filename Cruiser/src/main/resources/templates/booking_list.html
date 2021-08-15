@@ -30,9 +30,32 @@
     </div>
 </div>
 
+<div th:switch="${bookingList}">
+    <h2 th:case="null" th:utext="#{label.bookingList.notFound}"></h2>
+    <div th:case="*">
+        <h2 th:utext="#{label.listBook}"></h2>
+        <table border="3">
+            <thead>
+            <tr>
+                <th th:utext="#{label.id}"></th>
+                <th th:utext="#{label.passEmail}"></th>
+                <th th:utext="#{label.cruise}"></th>
+                <th th:utext="#{label.status}"></th>
+            </tr>
+            </thead>
 
-
-<h1 th:utext="#{label.listBook}"></h1>
+            <tbody>
+            <tr th:each="booking : ${bookingList}">
+                <td th:text="${booking.id}"></td>
+                <td th:text="${booking.user.email}"></td>
+                <td th:text="${booking.cruise.route}"></td>
+                <td th:text="${booking.status}"></td>
+                <td><a th:href="@{booking_confirm/{id}(id=${booking.id})}" th:utext="#{label.confirm}"></a></td>
+                <td><a th:href="@{booking_reject/{id}(id=${booking.id})}" th:utext="#{label.reject}"></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 </body>
 </html>

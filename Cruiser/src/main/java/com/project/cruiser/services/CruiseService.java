@@ -38,4 +38,5 @@ public class CruiseService {
     public void deleteById(Long id) {
         cruiseRepository.deleteById(id);
     }
+
 }

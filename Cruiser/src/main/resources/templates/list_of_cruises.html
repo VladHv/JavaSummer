@@ -51,6 +51,7 @@
                     <td th:text="${cruise.route}"></td>
                     <td th:text="${cruise.start}"></td>
                     <td th:text="${cruise.end}"></td>
+                    <td sec:authorize="hasRole('USER')"><a th:href="@{cruise_book/{id}(id=${cruise.id})}" th:utext="#{label.book}"></a></td>
                     <td sec:authorize="hasRole('ADMIN')"><a th:href="@{cruise_update/{id}(id=${cruise.id})}" th:utext="#{label.update}"></a></td>
                     <td sec:authorize="hasRole('ADMIN')"><a th:href="@{cruise_delete/{id}(id=${cruise.id})}" th:utext="#{label.delete}"></a></td>
                 </tr>

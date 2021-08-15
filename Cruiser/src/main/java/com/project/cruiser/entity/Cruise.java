@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -36,4 +37,9 @@ public class Cruise {
     @Column(name = "end_date", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
+
+//    @OneToMany
+//    @JoinColumn(name = "users_id")
+//    private Set<User> users;
+
 }

@@ -31,9 +31,23 @@
 </div>
 <h1 th:utext="#{label.userInfo}"></h1>
 
-Name: <span sec:authentication="name"></span>
-Role: <span sec:authentication="principal.authorities"></span>
+<form th:object="${user}">
 
+    <table>
+        <tr>
+            <td th:utext="#{label.firstName}"></td>
+            <td th:text="${user.firstName}"></td>
+        </tr>
+        <tr>
+            <td th:utext="#{label.lastName}"></td>
+            <td th:text="${user.lastName}"></td>
+        </tr>
+        <tr>
+            <td th:utext="#{label.email}"></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>
 
