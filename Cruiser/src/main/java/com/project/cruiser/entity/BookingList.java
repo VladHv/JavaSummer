@@ -20,11 +20,11 @@ public class BookingList {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cruise_id")
     private Cruise cruise;
 

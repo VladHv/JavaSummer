@@ -32,42 +32,43 @@
 
 <h1 th:utext="#{label.reg}"></h1>
 
-<form th:action="@{/process_register}" th:object="${user}" method="post">
+<form th:action="@{/process_register}" th:object="${user}" th:method="POST">
     <div>
-        <div class="form-group row">
-            <label class="col-4 col-form-label" th:utext="#{label.email}"></label>
-            <div class="col-8">
-                <input type="email" th:field="*{email}" class="form-control" required />
-
+        <div>
+            <label th:utext="#{label.email}"></label>
+            <div >
+                <input type="text" th:field="*{email}"/>
             </div>
+            <p style="color:red" th:if="${#fields.hasErrors('email')}" th:utext="#{label.wrongEmail}"></p>
+            <p style="color:red" th:if="${userExist == true}" th:utext="#{label.userExist}"></p>
         </div>
 
-        <div class="form-group row">
-            <label class="col-4 col-form-label" th:utext="#{label.password}"></label>
-            <div class="col-8">
-                <input type="password" th:field="*{password}" class="form-control"
-                       required minlength="6" maxlength="10"/>
+        <div>
+            <label th:utext="#{label.password}"></label>
+            <div>
+                <input type="password" th:field="*{password}" />
             </div>
+            <p style="color:red" th:if="${#fields.hasErrors('password')}" th:utext="#{label.emptyPass}"></p>
         </div>
 
-        <div class="form-group row">
-            <label class="col-4 col-form-label" th:utext="#{label.firstName}"></label>
-            <div class="col-8">
-                <input type="text" th:field="*{firstName}" class="form-control"
-                       required minlength="2" maxlength="20"/>
+        <div>
+            <label th:utext="#{label.firstName}"></label>
+            <div>
+                <input type="text" th:field="*{firstName}"/>
             </div>
+            <p style="color:red" th:if="${#fields.hasErrors('firstName')}" th:utext="#{label.emptyField}"></p>
         </div>
 
-        <div class="form-group row">
-            <label class="col-4 col-form-label" th:utext="#{label.lastName}"></label>
-            <div class="col-8">
-                <input type="text" th:field="*{lastName}" class="form-control"
-                       required minlength="2" maxlength="20" />
+        <div>
+            <label th:utext="#{label.lastName}"></label>
+            <div>
+                <input type="text" th:field="*{lastName}" />
             </div>
+            <p style="color:red" th:if="${#fields.hasErrors('lastName')}" th:utext="#{label.emptyField}"></p>
         </div>
         <br>
         <div>
-            <button type="submit" class="btn btn-primary" th:utext="#{label.register}"></button>
+            <button th:utext="#{label.register}"></button>
         </div>
     </div>
 </form>

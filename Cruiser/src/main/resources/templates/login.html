@@ -30,6 +30,15 @@
         </div>
     </div>
     <h1 th:utext="#{label.submit}"></h1>
+
+    <div th:if="${param.error}">
+        <p style="color:red" th:utext="#{label.badCredentials}"></p>
+    </div>
+
+    <div th:if="${param.logout}">
+        <p style="color:orange" th:utext="#{label.successfulLogout}"></p>
+    </div>
+
     <form name='f' action="login" method='POST'>
         <table>
             <tr>

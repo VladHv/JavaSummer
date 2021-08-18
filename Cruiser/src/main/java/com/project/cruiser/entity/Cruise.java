@@ -29,7 +29,6 @@ public class Cruise {
     @Column(name = "route", nullable = false)
     private String route;
 
-
     @Column(name = "start_date", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime start;
@@ -38,8 +37,7 @@ public class Cruise {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime end;
 
-//    @OneToMany
-//    @JoinColumn(name = "users_id")
-//    private Set<User> users;
+    @OneToMany(mappedBy = "cruise")
+    private Set<BookingList> bookingList;
 
 }

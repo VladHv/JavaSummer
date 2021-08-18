@@ -53,7 +53,7 @@ public class CruiseController {
     }
 
     @PostMapping("/cruise_update")
-    public String udateCruise(Cruise cruise) {
+    public String updateCruise(Cruise cruise) {
         cruiseService.save(cruise);
         return "redirect:/list_of_cruises";
     }
