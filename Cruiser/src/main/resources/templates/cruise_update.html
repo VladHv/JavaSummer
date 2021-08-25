@@ -43,6 +43,8 @@
     <input type="datetime-local" th:field="*{start}" id="start">
     <label for="end" th:utext="#{label.end}"></label>
     <input type="datetime-local" th:field="*{end}" id="end">
+    <label for="end" th:utext="#{label.price}"></label>
+    <input type="number" th:field="*{price}" id="end">
     <button type="submit" th:utext="#{label.update}"></button>
 </form>
 

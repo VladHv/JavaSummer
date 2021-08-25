@@ -4,14 +4,14 @@
       lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:utext="#{label.successful.register}"></title>
+    <title th:utext="#{label.successful.money}"></title>
 </head>
 <body>
 <div style="padding:5px;margin:5px 0px;background:#ccc;">
     <div style="text-align: right">
-        <a th:href="@{/process_register?lang=en}">EN</a>
+        <a th:href="@{/successful_replenish?lang=en}">EN</a>
         &nbsp;|&nbsp;
-        <a th:href="@{/process_register?lang=ua}">UA</a>
+        <a th:href="@{/successful_replenish?lang=ua}">UA</a>
     </div>
     <div style="text-align: left">
         <a th:href="@{/main}" th:utext="#{label.home}"></a>
@@ -29,9 +29,9 @@
         <a th:href="@{reg_form}" th:utext="#{label.reg}" sec:authorize="isAnonymous()"></a>
     </div>
 </div>
-    <h3 th:utext="#{label.successful.register}"></h3>
-    <br>
-    <h4><a th:href="@{/main}" th:utext="#{label.ok}"></a></h4>
+<h3 th:utext="#{label.successful.money}"></h3>
+<br>
+<h4><a th:href="@{/user_info}" th:utext="#{label.ok}"></a></h4>
 
 </body>
 </html>

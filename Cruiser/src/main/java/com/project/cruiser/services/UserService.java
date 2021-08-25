@@ -1,13 +1,15 @@
 package com.project.cruiser.services;
 
 import com.project.cruiser.entity.BookingList;
-import com.project.cruiser.entity.Cruise;
+import com.project.cruiser.entity.BookingStatus;
 import com.project.cruiser.entity.RoleType;
 import com.project.cruiser.entity.User;
+import com.project.cruiser.repository.BookingListRepository;
 import com.project.cruiser.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,10 +19,12 @@ import java.util.Set;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final BookingListRepository bookingListRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, BookingListRepository bookingListRepository) {
         this.userRepository = userRepository;
+        this.bookingListRepository = bookingListRepository;
     }
 
     public User findById(Long id){
@@ -50,10 +54,11 @@ public class UserService {
         return userRepository.findByEmail(name);
     }
 
-    public Set<BookingList> getBookingList(String email){
+    public Set<BookingList> getUserBookingList(String email){
         return userRepository.findByEmail(email).getBookingLists();
     }
 
+    @Transactional
     public void addMoney(User user, Integer money) {
         User updatedUser = userRepository.findByEmail(user.getEmail());
         Integer updatedMoneyAmount = updatedUser.getMoneyAmount() + money;
@@ -63,5 +68,18 @@ public class UserService {
 
     public boolean isUserAlreadyExist(User user) {
         return userRepository.findByEmail(user.getEmail()) != null;
+    }
+
+
+    @Transactional
+    public void payBooking(Long id, User user){
+        User updatedUser = userRepository.findByEmail(user.getEmail());
+        BookingList booking = bookingListRepository.findById(id).get();
+        updatedUser.setMoneyAmount(updatedUser.getMoneyAmount()
+                - booking.getCruise().getPrice());
+        booking.setStatus(BookingStatus.PAID);
+        userRepository.save(updatedUser);
+        bookingListRepository.save(booking);
+
     }
 }

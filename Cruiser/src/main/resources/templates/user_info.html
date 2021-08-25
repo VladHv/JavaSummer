@@ -53,19 +53,22 @@
     </table>
 </form>
 
+
 <div sec:authorize="hasRole('USER')">
-<form th:action="@{/add_money}" th:object="${money}" method="post">
+
+<form th:action="@{/successful_replenish}" th:object="${money}" th:method="POST">
     <table>
         <tr>
             <td th:utext="#{label.replenish}"></td>
             <td>
                 <label><input type='number' name="money" value=''></label>
             </td>
+            <p style="color:red" th:if="${wrongAmount == true}" th:utext="#{label.incorrectMoney}"></p>
             <td><button type="submit" th:utext="#{label.confirm}"></button></td>
         </tr>
     </table>
 </form>
-
+    <p style="color:red" th:if="${notEnoughMoney == true}" th:utext="#{label.notEnoughMoney}"></p>
 <div th:object="${bookingList}">
     <h2 th:if="${bookingList.size() == 0}" th:utext="#{label.bookingList.notFound}"></h2>
     <div th:unless="${bookingList.size() == 0}">
@@ -75,6 +78,7 @@
             <tr>
                 <th th:utext="#{label.id}"></th>
                 <th th:utext="#{label.cruise}"></th>
+                <th th:utext="#{label.price}"></th>
                 <th th:utext="#{label.status}"></th>
             </tr>
             </thead>
@@ -83,11 +87,13 @@
             <tr th:each="booking : ${bookingList}">
                 <td th:text="${booking.id}"></td>
                 <td th:text="${booking.cruise.route}"></td>
+                <td th:text="${booking.cruise.price}"></td>
                 <td th:text="${booking.status}"></td>
                 <td th:if="${booking.status == booking.status.CONFIRMED}"><a th:href="@{booking_pay/{id}(id=${booking.id})}" th:utext="#{label.pay}"></a></td>
             </tr>
             </tbody>
         </table>
+
     </div>
 </div>
 </div>

@@ -29,6 +29,9 @@ public class Cruise {
     @Column(name = "route", nullable = false)
     private String route;
 
+    @Column(name = "price", nullable = false)
+    private Integer price;
+
     @Column(name = "start_date", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime start;
@@ -39,5 +42,7 @@ public class Cruise {
 
     @OneToMany(mappedBy = "cruise")
     private Set<BookingList> bookingList;
+
+
 
 }

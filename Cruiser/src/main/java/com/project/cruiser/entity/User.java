@@ -40,7 +40,7 @@ public class User {
     private String lastName;
 
     @Column(nullable = false, length = 64)
-    @Size(min = 1, max = 64, message = "{label.emptyPass}")
+    @Size(min = 1, max = 64, message = "Input password, please")
     private String password;
 
     @Column(name = "money_amount", nullable = false)
