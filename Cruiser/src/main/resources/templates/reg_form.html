@@ -29,49 +29,49 @@
         <a type="submit" th:href="@{reg_form}" th:utext="#{label.reg}" sec:authorize="isAnonymous()"></a>
     </div>
 </div>
+    <div align="center">
+        <h1 th:utext="#{label.reg}"></h1>
 
-<h1 th:utext="#{label.reg}"></h1>
-
-<form th:action="@{/process_register}" th:object="${user}" th:method="POST">
-    <div>
-        <div>
-            <label th:utext="#{label.email}"></label>
-            <div >
-                <input type="text" th:field="*{email}"/>
-            </div>
-            <p style="color:red" th:if="${#fields.hasErrors('email')}" th:utext="#{label.wrongEmail}"></p>
-            <p style="color:red" th:if="${userExist == true}" th:utext="#{label.userExist}"></p>
-        </div>
-
-        <div>
-            <label th:utext="#{label.password}"></label>
+        <form th:action="@{/process_register}" th:object="${user}" th:method="POST">
             <div>
-                <input type="password" th:field="*{password}" />
-            </div>
-            <p style="color:red" th:if="${#fields.hasErrors('password')}" th:utext="#{label.emptyPass}"></p>
-        </div>
+                <div>
+                    <label th:utext="#{label.email}"></label>
+                    <div >
+                        <input type="text" th:field="*{email}"/>
+                    </div>
+                    <p style="color:red" th:if="${#fields.hasErrors('email')}" th:utext="#{label.wrongEmail}"></p>
+                    <p style="color:red" th:if="${userExist == true}" th:utext="#{label.userExist}"></p>
+                </div>
 
-        <div>
-            <label th:utext="#{label.firstName}"></label>
-            <div>
-                <input type="text" th:field="*{firstName}"/>
-            </div>
-            <p style="color:red" th:if="${#fields.hasErrors('firstName')}" th:utext="#{label.emptyField}"></p>
-        </div>
+                <div>
+                    <label th:utext="#{label.password}"></label>
+                    <div>
+                        <input type="password" th:field="*{password}" />
+                    </div>
+                    <p style="color:red" th:if="${#fields.hasErrors('password')}" th:utext="#{label.emptyPass}"></p>
+                </div>
 
-        <div>
-            <label th:utext="#{label.lastName}"></label>
-            <div>
-                <input type="text" th:field="*{lastName}" />
+                <div>
+                    <label th:utext="#{label.firstName}"></label>
+                    <div>
+                        <input type="text" th:field="*{firstName}"/>
+                    </div>
+                    <p style="color:red" th:if="${#fields.hasErrors('firstName')}" th:utext="#{label.emptyField}"></p>
+                </div>
+
+                <div>
+                    <label th:utext="#{label.lastName}"></label>
+                    <div>
+                        <input type="text" th:field="*{lastName}" />
+                    </div>
+                    <p style="color:red" th:if="${#fields.hasErrors('lastName')}" th:utext="#{label.emptyField}"></p>
+                </div>
+                <br>
+                <div>
+                    <button th:utext="#{label.register}"></button>
+                </div>
             </div>
-            <p style="color:red" th:if="${#fields.hasErrors('lastName')}" th:utext="#{label.emptyField}"></p>
-        </div>
-        <br>
-        <div>
-            <button th:utext="#{label.register}"></button>
-        </div>
+        </form>
     </div>
-</form>
-
 </body>
 </html>

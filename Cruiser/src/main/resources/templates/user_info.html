@@ -46,7 +46,7 @@
             <td th:utext="#{label.email}"></td>
             <td th:text="${user.email}"></td>
         </tr>
-        <tr>
+        <tr sec:authorize="hasRole('USER')">
             <td th:utext="#{label.moneyAmount}"></td>
             <td th:text="${user.moneyAmount}"></td>
         </tr>
@@ -89,7 +89,7 @@
                 <td th:text="${booking.cruise.route}"></td>
                 <td th:text="${booking.cruise.price}"></td>
                 <td th:text="${booking.status}"></td>
-                <td th:if="${booking.status == booking.status.CONFIRMED}"><a th:href="@{booking_pay/{id}(id=${booking.id})}" th:utext="#{label.pay}"></a></td>
+                <td th:if="${booking.status == booking.status.CONFIRMED}"><a th:href="@{/booking_pay/{id}(id=${booking.id})}" th:utext="#{label.pay}"></a></td>
             </tr>
             </tbody>
         </table>

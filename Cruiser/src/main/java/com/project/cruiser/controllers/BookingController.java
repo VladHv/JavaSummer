@@ -7,6 +7,7 @@ import com.project.cruiser.services.BookingListService;
 import com.project.cruiser.services.CruiseService;
 import com.project.cruiser.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +38,23 @@ public class BookingController {
         return "redirect:/list_of_cruises";
     }
 
-    @GetMapping("/booking_list")
-    public String findAll(Model model){
-        List<BookingList> bookingList = bookingListService.findAll();
+    @GetMapping("/booking_list/page/{pageNumber}")
+    public String bookingListByPage(Model model, @PathVariable("pageNumber") int currentPage){
+
+        Page<BookingList> page = bookingListService.findAll(currentPage);
+        int totalPages = page.getTotalPages();
+        List<BookingList> bookingList = page.getContent();
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("bookingList", bookingList);
         return "booking_list";
+    }
+
+    @GetMapping("/booking_list")
+    public String bookingList(Model model){
+        int firstPage = 1;
+        return bookingListByPage(model, firstPage);
     }
 
     @GetMapping("booking_confirm/{id}")

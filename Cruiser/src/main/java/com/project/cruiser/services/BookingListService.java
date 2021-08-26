@@ -6,7 +6,11 @@ import com.project.cruiser.entity.Cruise;
 import com.project.cruiser.entity.User;
 import com.project.cruiser.repository.BookingListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +31,10 @@ public class BookingListService {
                 .orElseThrow(RuntimeException::new);
     }
 
-    public List<BookingList> findAll() {
-        return Optional.of(bookingListRepository.findAll())
+    public Page<BookingList> findAll(int pageNumber) {
+        int pageSize = 5;
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+        return Optional.of(bookingListRepository.findAll(pageable))
                 .orElseThrow(RuntimeException::new);
     }
 
@@ -49,6 +55,7 @@ public class BookingListService {
         bookingListRepository.save(booking);
     }
 
+    @Transactional
     public void confirmBookById(Long id) {
         BookingList booking = Optional.of(bookingListRepository.findById(id)).get()
                 .orElseThrow(RuntimeException::new);
@@ -56,6 +63,7 @@ public class BookingListService {
         bookingListRepository.save(booking);
     }
 
+    @Transactional
     public void rejectBookById(Long id) {
         BookingList booking = Optional.of(bookingListRepository.findById(id)).get()
                 .orElseThrow(RuntimeException::new);

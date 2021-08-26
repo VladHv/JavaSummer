@@ -29,32 +29,31 @@
             <a type="submit" th:href="@{reg_form}" th:utext="#{label.reg}" sec:authorize="isAnonymous()"></a>
         </div>
     </div>
-    <h1 th:utext="#{label.submit}"></h1>
 
-    <div th:if="${param.error}">
-        <p style="color:red" th:utext="#{label.badCredentials}"></p>
+    <div align="center">
+        <h1 th:utext="#{label.submit}"></h1>
+
+        <div th:if="${param.error}">
+            <p style="color:red" th:utext="#{label.badCredentials}"></p>
+        </div>
+
+        <div th:if="${param.logout}">
+            <p style="color:orange" th:utext="#{label.successfulLogout}"></p>
+        </div>
+
+        <form name='f' action="login" method='POST'>
+            <table>
+                <tr>
+                    <td th:utext="#{label.email}"></td>
+                    <td><input type='text' name='username' value=''></td>
+                </tr>
+                <tr>
+                    <td th:utext="#{label.password}"></td>
+                    <td><input type='password' name='password' /></td>
+                </tr>
+            </table>
+            <button type="submit" class="btn btn-primary" th:utext="#{label.submit}"></button>
+        </form>
     </div>
-
-    <div th:if="${param.logout}">
-        <p style="color:orange" th:utext="#{label.successfulLogout}"></p>
-    </div>
-
-    <form name='f' action="login" method='POST'>
-        <table>
-            <tr>
-                <td th:utext="#{label.email}"></td>
-                <td><input type='text' name='username' value=''></td>
-            </tr>
-            <tr>
-                <td th:utext="#{label.password}"></td>
-                <td><input type='password' name='password' /></td>
-            </tr>
-            <tr>
-                <td>
-                <button type="submit" class="btn btn-primary" th:utext="#{label.submit}"></button>
-                </td>
-            </tr>
-        </table>
-    </form>
 </body>
 </html>

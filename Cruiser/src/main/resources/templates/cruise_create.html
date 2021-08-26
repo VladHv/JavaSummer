@@ -29,27 +29,27 @@
         <a type="submit" th:href="@{reg_form}" th:utext="#{label.reg}" sec:authorize="isAnonymous()"></a>
     </div>
 </div>
+<div align="center" >
+    <h1 th:utext="#{label.create.cruise}"></h1>
 
-<h1 th:utext="#{label.create.cruise}"></h1>
-
-<form action="#" th:action="@{/cruise_create}" th:object="${cruise}" method="post">
-    <label for="passCapacity" th:utext="#{label.passCapacity}"></label>
-    <input type="number" th:field="*{passCapacity}" id="passCapacity">
-    <br>
-    <label for="route" th:utext="#{label.route}"></label>
-    <input type="text" th:field="*{route}" id="route">
-    <br>
-    <label for="start" th:utext="#{label.start}"></label>
-    <input type="datetime-local" th:field="*{start}" id="start">
-    <br>
-    <label for="end" th:utext="#{label.end}"></label>
-    <input type="datetime-local" th:field="*{end}" id="end">
-    <br>
-    <label for="price" th:utext="#{label.price}"></label>
-    <input type="number" th:field="*{price}" id="price">
-    <br>
-    <button type="submit" th:utext="#{label.create}"></button>
-</form>
-
+    <form action="#" th:action="@{/cruise_create}" th:object="${cruise}" method="post">
+        <label for="passCapacity" th:utext="#{label.passCapacity}"></label>
+        <input type="number" th:field="*{passCapacity}" id="passCapacity">
+        <br>
+        <label for="route" th:utext="#{label.route}"></label>
+        <input type="text" th:field="*{route}" id="route">
+        <br>
+        <label for="start" th:utext="#{label.start}"></label>
+        <input type="datetime-local" th:field="*{start}" id="start">
+        <br>
+        <label for="end" th:utext="#{label.end}"></label>
+        <input type="datetime-local" th:field="*{end}" id="end">
+        <br>
+        <label for="price" th:utext="#{label.price}"></label>
+        <input type="number" th:field="*{price}" id="price">
+        <br>
+        <button type="submit" th:utext="#{label.create}"></button>
+    </form>
+</div>
 </body>
 </html>
