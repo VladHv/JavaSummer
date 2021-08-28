@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -46,10 +47,13 @@ public class BookingController {
     public String bookingListByPage(Model model,
                                     @PathVariable("pageNumber") int currentPage,
                                     @Param("sortField") String sortField,
-                                    @Param("sortDir") String sortDir){
+                                    @Param("sortDir") String sortDir,
+                                    @Param("filter") String filter){
 
-        //todo filter for status.new
         BookingStatus keyword = null;
+        if(filter.equals("new")){
+            keyword = BookingStatus.NEW;
+        }
 
         Page<BookingList> page = bookingListService.findAll(currentPage, sortField, sortDir, keyword);
 
@@ -61,6 +65,7 @@ public class BookingController {
         model.addAttribute("bookingList", bookingList);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
+        model.addAttribute("filter", filter);
 
         String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
         model.addAttribute("reverseSortDir", reverseSortDir);
@@ -70,7 +75,15 @@ public class BookingController {
     @GetMapping("/booking_list")
     public String bookingList(Model model){
         int firstPage = 1;
-        return bookingListByPage(model, firstPage, "id", "asc");
+        String filter = "false";
+        return bookingListByPage(model, firstPage, "id", "asc", filter);
+    }
+
+    @GetMapping("/booking_list_filtered")
+    public String bookingListNewOnly(Model model) {
+        int firstPage = 1;
+        String filter = "new";
+        return bookingListByPage(model, firstPage, "id", "asc", filter);
     }
 
     @GetMapping("booking_confirm/{id}")

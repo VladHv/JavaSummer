@@ -35,20 +35,28 @@
     <div th:case="*">
         <h2 th:utext="#{label.listBook}"></h2>
 
+        <form th:action="@{/booking_list_filtered}">
+            <input type="submit" th:value="#{label.showNew}" />
+        </form>
+        <br>
+        <form th:action="@{/booking_list}">
+            <input type="submit" th:value="#{label.showAll}" />
+        </form>
+        <br>
         <table border="3">
             <thead>
             <tr>
                 <th>
-                    <a th:utext="#{label.id}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}"></a>
+                    <a th:utext="#{label.id}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
                 </th>
                 <th>
-                    <a th:utext="#{label.passEmail}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=user&sortDir=' + ${reverseSortDir}}"></a>
+                    <a th:utext="#{label.passEmail}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=user&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
                 </th>
                 <th>
-                    <a th:utext="#{label.cruise}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=cruise&sortDir=' + ${reverseSortDir}}"></a>
+                    <a th:utext="#{label.cruise}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=cruise&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
                 </th>
                 <th>
-                    <a th:utext="#{label.status}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=status&sortDir=' + ${reverseSortDir}}"></a>
+                    <a th:utext="#{label.status}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=status&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
                 </th>
             </tr>
             </thead>
@@ -72,22 +80,22 @@
             <p th:utext="|#{label.page} ${currentPage} #{label.of} ${totalPages}|"></p>
 
             <div th:unless="${totalPages == 1}">
-                <a th:if="${currentPage > 1}" th:href="@{'/booking_list/page/' + 1 + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir}}" th:utext="#{label.first}"></a>
+                <a th:if="${currentPage > 1}" th:href="@{'/booking_list/page/' + 1 + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.first}"></a>
                 <span th:unless="${currentPage > 1}" th:utext="#{label.first}"></span>
                 &nbsp;
-                <a th:if="${currentPage > 1}" th:href="@{'/booking_list/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir}}" th:utext="#{label.previous}"></a>
+                <a th:if="${currentPage > 1}" th:href="@{'/booking_list/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.previous}"></a>
                 <span th:unless="${currentPage > 1}" th:utext="#{label.previous}"></span>
                 &nbsp;
                 <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                    <a th:if="${i != currentPage}" th:href="@{'/booking_list/page/' + ${i} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                    <a th:if="${i != currentPage}" th:href="@{'/booking_list/page/' + ${i} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}">[[${i}]]</a>
                     <span th:unless="${i != currentPage}">[[${i}]]</span>
                     &nbsp;
                 </span>
                 &nbsp;
-                <a th:if="${currentPage < totalPages}" th:href="@{'/booking_list/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir}}" th:utext="#{label.next}"></a>
+                <a th:if="${currentPage < totalPages}" th:href="@{'/booking_list/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.next}"></a>
                 <span th:unless="${currentPage < totalPages}" th:utext="#{label.next}"></span>
                 &nbsp;
-                <a th:if="${currentPage < totalPages}" th:href="@{'/booking_list/page/' + ${totalPages} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir}}" th:utext="#{label.last}"></a>
+                <a th:if="${currentPage < totalPages}" th:href="@{'/booking_list/page/' + ${totalPages} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.last}"></a>
                 <span th:unless="${currentPage < totalPages}" th:utext="#{label.last}"></span>
             </div>
         </div>

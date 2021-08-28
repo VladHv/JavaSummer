@@ -33,7 +33,7 @@ public class BookingListService {
     }
 
     public Page<BookingList> findAll(int pageNumber, String sortField, String sortDir, BookingStatus keyword) {
-        int pageSize = 5;
+        int pageSize = 3;
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
