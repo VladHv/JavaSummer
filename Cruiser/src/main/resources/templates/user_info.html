@@ -61,7 +61,7 @@
         <tr>
             <td th:utext="#{label.replenish}"></td>
             <td>
-                <label><input type='number' name="money" value=''></label>
+                <label><input type='number' name="money" value='' required></label>
             </td>
             <p style="color:red" th:if="${wrongAmount == true}" th:utext="#{label.incorrectMoney}"></p>
             <td><button type="submit" th:utext="#{label.confirm}"></button></td>
