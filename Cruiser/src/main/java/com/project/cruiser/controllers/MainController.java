@@ -23,9 +23,4 @@ public class MainController {
         return "login";
     }
 
-    @RequestMapping("/booking_list")
-    public String getBookings(Model model) {
-        return "booking_list";
-    }
-
 }

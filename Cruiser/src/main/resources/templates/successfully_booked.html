@@ -4,14 +4,14 @@
       lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:utext="#{label.successful.pay}"></title>
+    <title th:utext="#{label.successful.book}"></title>
 </head>
 <body>
 <div style="padding:5px;margin:5px 0px;background:#ccc;">
     <div style="text-align: right">
-        <a th:href="@{/successfully_paid?lang=en}">EN</a>
+        <a th:href="@{/successfully_booked?lang=en}">EN</a>
         &nbsp;|&nbsp;
-        <a th:href="@{/successfully_paid?lang=ua}">UA</a>
+        <a th:href="@{/successfully_booked?lang=ua}">UA</a>
     </div>
     <div style="text-align: left">
         <a th:href="@{/main}" th:utext="#{label.home}"></a>
@@ -29,8 +29,8 @@
         <a th:href="@{reg_form}" th:utext="#{label.reg}" sec:authorize="isAnonymous()"></a>
     </div>
 </div>
-<h3 th:utext="#{label.successful.pay}"></h3>
-<h4><a th:href="@{/user_info}" th:utext="#{label.ok}"></a></h4>
+<h3 th:utext="#{label.successful.book}"></h3>
+<h4><a th:href="@{/list_of_cruises}" th:utext="#{label.ok}"></a></h4>
 
 </body>
 </html>

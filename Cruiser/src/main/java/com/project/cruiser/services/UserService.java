@@ -38,12 +38,14 @@ public class UserService {
                 .orElseThrow(RuntimeException::new);
     }
 
-    public void save(User user) {
+    public User save(User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(RoleType.USER);
-        user.setMoneyAmount(0);
-        userRepository.save(user);
+        return userRepository.save(
+                User.builder()
+                        .password(passwordEncoder.encode(user.getPassword()))
+                        .role(RoleType.USER)
+                        .moneyAmount(0)
+                .build());
     }
 
     public void deleteById(Long id) {
@@ -59,11 +61,11 @@ public class UserService {
     }
 
     @Transactional
-    public void addMoney(User user, Integer money) {
+    public User addMoney(User user, Integer money) {
         User updatedUser = userRepository.findByEmail(user.getEmail());
         Integer updatedMoneyAmount = updatedUser.getMoneyAmount() + money;
         user.setMoneyAmount(updatedMoneyAmount);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public boolean isUserAlreadyExist(User user) {

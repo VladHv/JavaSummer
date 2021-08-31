@@ -24,23 +24,10 @@ import java.util.stream.Collectors;
 public class BookingController {
 
     private final BookingListService bookingListService;
-    private final CruiseService cruiseService;
-    private final UserService userService;
 
     @Autowired
-    public BookingController(BookingListService bookingListService, CruiseService cruiseService, UserService userService) {
+    public BookingController(BookingListService bookingListService) {
         this.bookingListService = bookingListService;
-        this.cruiseService = cruiseService;
-        this.userService = userService;
-    }
-
-    @GetMapping("cruise_book/{id}")
-    public String bookCruise(@PathVariable("id") Long id, Principal principal){
-
-        User user = userService.findByName(principal.getName());
-        Cruise cruise = cruiseService.findById(id);
-        bookingListService.bookCruise(cruise, user);
-        return "redirect:/list_of_cruises";
     }
 
     @GetMapping("/booking_list/page/{pageNumber}")

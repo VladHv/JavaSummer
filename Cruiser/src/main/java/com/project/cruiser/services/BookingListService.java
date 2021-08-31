@@ -1,5 +1,6 @@
 package com.project.cruiser.services;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.project.cruiser.entity.BookingList;
 import com.project.cruiser.entity.BookingStatus;
 import com.project.cruiser.entity.Cruise;
@@ -13,8 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingListService {
@@ -38,12 +39,10 @@ public class BookingListService {
         sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
 
-        if(keyword != null){
-            return Optional.of(bookingListRepository.findAll(keyword, pageable))
-                    .orElseThrow(RuntimeException::new);
-        }
-        return Optional.of(bookingListRepository.findAll(pageable))
+        return keyword != null ? Optional.of(bookingListRepository.findAll(keyword, pageable))
+                .orElseThrow(RuntimeException::new) : Optional.of(bookingListRepository.findAll(pageable))
                 .orElseThrow(RuntimeException::new);
+
     }
 
     public BookingList save(BookingList bookingList) {
@@ -54,28 +53,36 @@ public class BookingListService {
         bookingListRepository.deleteById(id);
     }
 
+    public boolean isCruiseAlreadyBookedByUser(User user, Cruise cruise){
+        return bookingListRepository.findAll()
+                .stream()
+                .filter(x -> x.getCruise().equals(cruise))
+                .anyMatch(x -> x.getUser().equals(user));
+    }
 
-    public void bookCruise(Cruise cruise, User user) {
-        BookingList booking = new BookingList();
-        booking.setCruise(cruise);
-        booking.setUser(user);
-        booking.setStatus(BookingStatus.NEW);
-        bookingListRepository.save(booking);
+
+    public BookingList bookCruise(Cruise cruise, User user) {
+        return bookingListRepository.save(
+                BookingList.builder()
+                        .cruise(cruise)
+                        .user(user)
+                        .status(BookingStatus.NEW)
+                .build());
     }
 
     @Transactional
-    public void confirmBookById(Long id) {
+    public BookingList confirmBookById(Long id) {
         BookingList booking = Optional.of(bookingListRepository.findById(id)).get()
                 .orElseThrow(RuntimeException::new);
         booking.setStatus(BookingStatus.CONFIRMED);
-        bookingListRepository.save(booking);
+        return bookingListRepository.save(booking);
     }
 
     @Transactional
-    public void rejectBookById(Long id) {
+    public BookingList rejectBookById(Long id) {
         BookingList booking = Optional.of(bookingListRepository.findById(id)).get()
                 .orElseThrow(RuntimeException::new);
         booking.setStatus(BookingStatus.REJECTED);
-        bookingListRepository.save(booking);
+        return bookingListRepository.save(booking);
     }
 }
