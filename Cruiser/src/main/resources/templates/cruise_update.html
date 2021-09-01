@@ -45,6 +45,8 @@
     <input type="datetime-local" th:field="*{end}" id="end">
     <label for="end" th:utext="#{label.price}"></label>
     <input type="number" th:field="*{price}" id="end">
+    <label for="freePlaces" th:utext="#{label.freePlaces}"></label>
+    <input readonly type="number" th:field="*{freePlaces}" id="freePlaces">
     <button type="submit" th:utext="#{label.update}"></button>
 </form>
 

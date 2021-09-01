@@ -32,6 +32,11 @@ public class CruiseService {
     }
 
     public Cruise save(Cruise cruise) {
+        cruise.setFreePlaces(cruise.getPassCapacity());
+        return cruiseRepository.save(cruise);
+    }
+
+    public Cruise update(Cruise cruise) {
         return cruiseRepository.save(cruise);
     }
 
@@ -39,4 +44,9 @@ public class CruiseService {
         cruiseRepository.deleteById(id);
     }
 
+    public boolean hasFreePlace(Cruise cruise) {
+        //todo Optional
+        return cruiseRepository.getById(cruise.getId()).getFreePlaces() > 0;
+
+    }
 }

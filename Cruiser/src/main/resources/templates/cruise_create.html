@@ -35,18 +35,23 @@
     <form action="#" th:action="@{/cruise_create}" th:object="${cruise}" method="post">
         <label for="passCapacity" th:utext="#{label.passCapacity}"></label>
         <input type="number" th:field="*{passCapacity}" id="passCapacity">
+        <p style="color:red" th:if="${#fields.hasErrors('passCapacity')}" th:utext="#{label.emptyField}"></p>
         <br>
         <label for="route" th:utext="#{label.route}"></label>
         <input type="text" th:field="*{route}" id="route">
+        <p style="color:red" th:if="${#fields.hasErrors('route')}" th:utext="#{label.emptyField}"></p>
         <br>
         <label for="start" th:utext="#{label.start}"></label>
         <input type="datetime-local" th:field="*{start}" id="start">
+        <p style="color:red" th:if="${#fields.hasErrors('start')}" th:utext="#{label.emptyField}"></p>
         <br>
         <label for="end" th:utext="#{label.end}"></label>
         <input type="datetime-local" th:field="*{end}" id="end">
+        <p style="color:red" th:if="${#fields.hasErrors('end')}" th:utext="#{label.emptyField}"></p>
         <br>
         <label for="price" th:utext="#{label.price}"></label>
         <input type="number" th:field="*{price}" id="price">
+        <p style="color:red" th:if="${#fields.hasErrors('price')}" th:utext="#{label.emptyField}"></p>
         <br>
         <button type="submit" th:utext="#{label.create}"></button>
     </form>

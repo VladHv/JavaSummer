@@ -2,12 +2,11 @@ package com.project.cruiser.controllers;
 
 import com.project.cruiser.entity.BookingList;
 import com.project.cruiser.entity.User;
+import com.project.cruiser.services.BookingListService;
 import com.project.cruiser.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,18 +14,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Size;
-import java.security.Principal;
 import java.util.Set;
 
 @Controller
 public class UserController {
 
     private final UserService userService;
+    private final BookingListService bookingListService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, BookingListService bookingListService) {
         this.userService = userService;
+        this.bookingListService = bookingListService;
     }
 
     @GetMapping("/reg_form")
@@ -51,7 +50,7 @@ public class UserController {
     public String getUserInfo(Model model, @AuthenticationPrincipal UserDetails currentUser) {
         User user = userService.findByName(currentUser.getUsername());
         model.addAttribute("user", user);
-        Set<BookingList> bookingList = userService.getUserBookingList(currentUser.getUsername());
+        Set<BookingList> bookingList = bookingListService.getUserBookingList(currentUser.getUsername());
         model.addAttribute("bookingList", bookingList);
         return "user_info";
     }
@@ -62,7 +61,7 @@ public class UserController {
         User user = userService.findByName(currentUser.getUsername());
         if(money <= 0){
             model.addAttribute("user", user);
-            Set<BookingList> bookingList = userService.getUserBookingList(currentUser.getUsername());
+            Set<BookingList> bookingList = bookingListService.getUserBookingList(currentUser.getUsername());
             model.addAttribute("bookingList", bookingList);
             model.addAttribute("wrongAmount", true);
             return "user_info";
@@ -82,7 +81,7 @@ public class UserController {
         } catch (Exception e) {
             user.setMoneyAmount(fixedMoneyAmount);
             model.addAttribute("user", user);
-            Set<BookingList> bookingList = userService.getUserBookingList(currentUser.getUsername());
+            Set<BookingList> bookingList = bookingListService.getUserBookingList(currentUser.getUsername());
             model.addAttribute("bookingList", bookingList);
             model.addAttribute("notEnoughMoney", true);
             return "user_info";

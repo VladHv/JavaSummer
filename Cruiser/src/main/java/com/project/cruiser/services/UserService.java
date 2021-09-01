@@ -40,12 +40,10 @@ public class UserService {
 
     public User save(User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return userRepository.save(
-                User.builder()
-                        .password(passwordEncoder.encode(user.getPassword()))
-                        .role(RoleType.USER)
-                        .moneyAmount(0)
-                .build());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(RoleType.USER);
+        user.setMoneyAmount(0);
+        return userRepository.save(user);
     }
 
     public void deleteById(Long id) {
@@ -54,10 +52,6 @@ public class UserService {
 
     public User findByName(String name) {
         return userRepository.findByEmail(name);
-    }
-
-    public Set<BookingList> getUserBookingList(String email){
-        return userRepository.findByEmail(email).getBookingLists();
     }
 
     @Transactional

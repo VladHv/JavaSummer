@@ -30,9 +30,8 @@
     </div>
 </div>
 
-<div align="center" th:switch="${bookingList}">
-    <h2 th:case="null" th:utext="#{label.bookingList.notFound}"></h2>
-    <div th:case="*">
+<div align="center">
+    <div>
         <h2 th:utext="#{label.listBook}"></h2>
 
         <form th:action="@{/booking_list_filtered}">
@@ -43,60 +42,64 @@
             <input type="submit" th:value="#{label.showAll}" />
         </form>
         <br>
-        <table border="3">
-            <thead>
-            <tr>
-                <th>
-                    <a th:utext="#{label.id}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
-                </th>
-                <th>
-                    <a th:utext="#{label.passEmail}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=user&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
-                </th>
-                <th>
-                    <a th:utext="#{label.cruise}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=cruise&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
-                </th>
-                <th>
-                    <a th:utext="#{label.status}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=status&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
-                </th>
-            </tr>
-            </thead>
 
-            <tbody>
-            <tr th:each="booking : ${bookingList}">
-                <td th:text="${booking.id}"></td>
-                <td th:text="${booking.user.email}"></td>
-                <td th:text="${booking.cruise.route}"></td>
-                <td th:text="${booking.status}"></td>
-                <td th:unless="${booking.status == booking.status.PAID or booking.status == booking.status.FINISHED}">
-                    <a th:href="@{/booking_confirm/{id}(id=${booking.id})}" th:utext="#{label.confirm}"></a>
-                </td>
-                <td th:unless="${booking.status == booking.status.PAID or booking.status == booking.status.FINISHED}">
-                    <a th:href="@{/booking_reject/{id}(id=${booking.id})}" th:utext="#{label.reject}"></a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div>
-            <p th:utext="|#{label.page} ${currentPage} #{label.of} ${totalPages}|"></p>
+        <h2 th:if="${bookingList.size() == 0}" th:utext="#{label.bookingList.notFound}"></h2>
+        <div th:unless="${bookingList.size() == 0}">
+            <table border="3">
+                <thead>
+                <tr>
+                    <th>
+                        <a th:utext="#{label.id}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
+                    </th>
+                    <th>
+                        <a th:utext="#{label.passEmail}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=user&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
+                    </th>
+                    <th>
+                        <a th:utext="#{label.cruise}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=cruise&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
+                    </th>
+                    <th>
+                        <a th:utext="#{label.status}" th:href="@{'/booking_list/page/' + ${currentPage} + '?sortField=status&sortDir=' + ${reverseSortDir} + '&filter=' + ${filter}}"></a>
+                    </th>
+                </tr>
+                </thead>
 
-            <div th:unless="${totalPages == 1}">
-                <a th:if="${currentPage > 1}" th:href="@{'/booking_list/page/' + 1 + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.first}"></a>
-                <span th:unless="${currentPage > 1}" th:utext="#{label.first}"></span>
-                &nbsp;
-                <a th:if="${currentPage > 1}" th:href="@{'/booking_list/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.previous}"></a>
-                <span th:unless="${currentPage > 1}" th:utext="#{label.previous}"></span>
-                &nbsp;
-                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                    <a th:if="${i != currentPage}" th:href="@{'/booking_list/page/' + ${i} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}">[[${i}]]</a>
-                    <span th:unless="${i != currentPage}">[[${i}]]</span>
+                <tbody>
+                <tr th:each="booking : ${bookingList}">
+                    <td th:text="${booking.id}"></td>
+                    <td th:text="${booking.user.email}"></td>
+                    <td th:text="${booking.cruise.route}"></td>
+                    <td th:text="${booking.status}"></td>
+                    <td th:if="${booking.status == booking.status.NEW}">
+                        <a th:href="@{/booking_confirm/{id}(id=${booking.id})}" th:utext="#{label.confirm}"></a>
+                    </td>
+                    <td th:if="${booking.status == booking.status.NEW}">
+                        <a th:href="@{/booking_reject/{id}(id=${booking.id})}" th:utext="#{label.reject}"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <p th:utext="|#{label.page} ${currentPage} #{label.of} ${totalPages}|"></p>
+
+                <div th:unless="${totalPages == 1}">
+                    <a th:if="${currentPage > 1}" th:href="@{'/booking_list/page/' + 1 + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.first}"></a>
+                    <span th:unless="${currentPage > 1}" th:utext="#{label.first}"></span>
                     &nbsp;
-                </span>
-                &nbsp;
-                <a th:if="${currentPage < totalPages}" th:href="@{'/booking_list/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.next}"></a>
-                <span th:unless="${currentPage < totalPages}" th:utext="#{label.next}"></span>
-                &nbsp;
-                <a th:if="${currentPage < totalPages}" th:href="@{'/booking_list/page/' + ${totalPages} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.last}"></a>
-                <span th:unless="${currentPage < totalPages}" th:utext="#{label.last}"></span>
+                    <a th:if="${currentPage > 1}" th:href="@{'/booking_list/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.previous}"></a>
+                    <span th:unless="${currentPage > 1}" th:utext="#{label.previous}"></span>
+                    &nbsp;
+                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                        <a th:if="${i != currentPage}" th:href="@{'/booking_list/page/' + ${i} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}">[[${i}]]</a>
+                        <span th:unless="${i != currentPage}">[[${i}]]</span>
+                        &nbsp;
+                    </span>
+                    &nbsp;
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/booking_list/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.next}"></a>
+                    <span th:unless="${currentPage < totalPages}" th:utext="#{label.next}"></span>
+                    &nbsp;
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/booking_list/page/' + ${totalPages} + '?sortField=' + ${sortField} +  '&sortDir=' + ${sortDir} + '&filter=' + ${filter}}" th:utext="#{label.last}"></a>
+                    <span th:unless="${currentPage < totalPages}" th:utext="#{label.last}"></span>
+                </div>
             </div>
         </div>
     </div>

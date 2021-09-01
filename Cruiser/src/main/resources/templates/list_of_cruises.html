@@ -43,18 +43,20 @@
                 <th th:utext="#{label.start}"></th>
                 <th th:utext="#{label.end}"></th>
                 <th th:utext="#{label.price}"></th>
+                <th th:utext="#{label.freePlaces}"></th>
             </tr>
             </thead>
 
             <tbody>
-                <tr th:each="cruise : ${cruises}">
+                <tr th:each="cruise : ${cruises}" align="center">
                     <td th:text="${cruise.id}"></td>
                     <td th:text="${cruise.passCapacity}"></td>
                     <td th:text="${cruise.route}"></td>
                     <td th:text="${cruise.start}"></td>
                     <td th:text="${cruise.end}"></td>
                     <td th:text="${cruise.price}"></td>
-                    <td sec:authorize="hasRole('USER')"><a th:href="@{/cruise_book/{id}(id=${cruise.id})}" th:utext="#{label.book}"></a></td>
+                    <td th:text="${cruise.freePlaces}"></td>
+                    <td sec:authorize="hasRole('USER')" ><a th:href="@{/cruise_book/{id}(id=${cruise.id})}" th:utext="#{label.book}"></a></td>
                     <td sec:authorize="hasRole('ADMIN')"><a th:href="@{cruise_update/{id}(id=${cruise.id})}" th:utext="#{label.update}"></a></td>
                     <td sec:authorize="hasRole('ADMIN')"><a th:href="@{cruise_delete/{id}(id=${cruise.id})}" th:utext="#{label.delete}"></a></td>
                 </tr>
@@ -66,7 +68,7 @@
 </div>
 
 <p style="color:red" th:if="${alreadyBooked == true}" th:utext="#{label.alreadyBooked}"></p>
-
+<p style="color:red" th:if="${noFreePlace == true}" th:utext="#{label.noFreePlace}"></p>
 
 </body>
 </html>

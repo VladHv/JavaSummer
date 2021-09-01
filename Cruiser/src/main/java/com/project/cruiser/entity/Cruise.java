@@ -26,26 +26,24 @@ public class Cruise {
     private Long Id;
 
     @Column(name = "pass_capacity", nullable = false)
-    @Size(min = 1)
     private Integer passCapacity;
 
     @Column(name = "route", nullable = false)
-    @NotEmpty
     private String route;
 
     @Column(name = "price", nullable = false)
-    @Size(min = 1)
     private Integer price;
 
     @Column(name = "start_date", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @NotEmpty
     private LocalDateTime start;
 
     @Column(name = "end_date", nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @NotEmpty
     private LocalDateTime end;
+
+    @Column(name = "free_places", nullable = false)
+    private Integer freePlaces;
 
     @OneToMany(mappedBy = "cruise")
     private Set<BookingList> bookingList;
