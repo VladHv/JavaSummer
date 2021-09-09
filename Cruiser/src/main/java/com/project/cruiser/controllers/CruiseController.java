@@ -6,16 +6,16 @@ import com.project.cruiser.services.BookingListService;
 import com.project.cruiser.services.CruiseService;
 import com.project.cruiser.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -34,8 +34,17 @@ public class CruiseController {
     }
 
     @GetMapping("/list_of_cruises")
-    public String findAll(Model model){
+    public String findAll(@RequestParam(value = "cruiseStart", required = false)
+                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+                          @RequestParam(value = "cruiseEnd", required = false)
+                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+                          Model model){
         List<Cruise> cruises = cruiseService.findAll();
+        if(start != null || end != null) {
+            cruises = cruiseService.findAll(start, end);
+        }
+        model.addAttribute("cruiseStart", start);
+        model.addAttribute("cruiseEnd", end);
         model.addAttribute("cruises", cruises);
         return "list_of_cruises";
     }

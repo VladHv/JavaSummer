@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Objects;
 import java.util.Set;
 
 
@@ -51,7 +50,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
+    @Column(name = "file_name")
+    private String fileName;
+
     @OneToMany(mappedBy = "user")
     private Set<BookingList> bookingLists;
+
+
 
 }

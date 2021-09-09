@@ -68,7 +68,14 @@
         </tr>
     </table>
 </form>
+
     <p style="color:red" th:if="${notEnoughMoney == true}" th:utext="#{label.notEnoughMoney}"></p>
+
+<div>
+    <br>
+    <a th:href="@{documents}" th:utext="#{label.docs}"></a>
+</div>
+
 <div th:object="${bookingList}">
     <h2 th:if="${bookingList.size() == 0}" th:utext="#{label.bookingList.notFound}"></h2>
     <div th:unless="${bookingList.size() == 0}">

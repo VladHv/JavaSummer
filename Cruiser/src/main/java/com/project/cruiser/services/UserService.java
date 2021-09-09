@@ -56,6 +56,7 @@ public class UserService {
 
     @Transactional
     public User addMoney(User user, Integer money) {
+        //todo saving of uploadedUser, NOT user
         User updatedUser = userRepository.findByEmail(user.getEmail());
         Integer updatedMoneyAmount = updatedUser.getMoneyAmount() + money;
         user.setMoneyAmount(updatedMoneyAmount);
@@ -77,5 +78,12 @@ public class UserService {
         userRepository.save(updatedUser);
         bookingListRepository.save(booking);
 
+    }
+
+    @Transactional
+    public User addFileName(String fileName, User user) {
+        User updatedUser = userRepository.findByEmail(user.getEmail());
+        updatedUser.setFileName(fileName);
+        return userRepository.save(updatedUser);
     }
 }

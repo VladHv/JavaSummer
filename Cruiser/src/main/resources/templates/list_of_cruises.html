@@ -30,11 +30,26 @@
     </div>
 </div>
 <div th:switch="${cruises}">
-    <h2 th:case="null" th:utext="label.cruises.notFound"></h2>
+    <h2 th:case="null" th:utext="#{label.cruises.notFound}"></h2>
     <div th:case="*">
         <h2 th:utext="#{label.cruisesList}"></h2>
 
-        <table border="3">
+        <form style="margin-bottom: 5px" th:action="@{/list_of_cruises}">
+
+            <label th:utext="#{label.from}"/>
+            <input type="datetime-local" name="cruiseStart" id="cruiseStart" th:value="${cruiseStart}" />
+            &nbsp;
+            <label th:utext="#{label.to}"/>
+            <input type="datetime-local" name="cruiseEnd" id="cruiseEnd" th:value="${cruiseEnd}" />
+            &nbsp;
+            <input type="submit" value="Search" />
+            &nbsp;
+            <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+        </form>
+
+        <h2 th:if="${cruises.size() == 0}" th:utext="#{label.cruises.notFound}"></h2>
+
+        <table th:unless="${cruises.size() == 0}" border="3">
             <thead>
             <tr>
                 <th th:utext="#{label.id}"></th>
@@ -69,6 +84,12 @@
 
 <p style="color:red" th:if="${alreadyBooked == true}" th:utext="#{label.alreadyBooked}"></p>
 <p style="color:red" th:if="${noFreePlace == true}" th:utext="#{label.noFreePlace}"></p>
+
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/list_of_cruises}]]";
+    }
+</script>
 
 </body>
 </html>

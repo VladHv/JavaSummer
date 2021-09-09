@@ -7,8 +7,10 @@ import com.project.cruiser.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CruiseService {
@@ -29,6 +31,29 @@ public class CruiseService {
     public List<Cruise> findAll() {
         return Optional.of(cruiseRepository.findAll())
                 .orElseThrow(RuntimeException::new);
+    }
+
+    public List<Cruise> findAll(LocalDateTime start, LocalDateTime end) {
+        if (start == null) {
+            start = cruiseRepository.findAll().stream()
+                    .map(Cruise::getStart)
+                    .min(LocalDateTime::compareTo)
+                    .orElseThrow(RuntimeException::new).minusMinutes(1L);
+        }
+
+        if (end == null) {
+            end = cruiseRepository.findAll().stream()
+                    .map(Cruise::getEnd)
+                    .max(LocalDateTime::compareTo)
+                    .orElseThrow(RuntimeException::new).plusMinutes(1L);
+        }
+
+        final LocalDateTime finalStart = start;
+        final LocalDateTime finalEnd = end;
+        return cruiseRepository.findAll().stream()
+                .filter(cruise -> cruise.getStart().isAfter(finalStart))
+                .filter(cruise -> cruise.getEnd().isBefore(finalEnd))
+                .collect(Collectors.toList());
     }
 
     public Cruise save(Cruise cruise) {
