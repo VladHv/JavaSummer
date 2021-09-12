@@ -29,82 +29,85 @@
         <a th:href="@{reg_form}" th:utext="#{label.reg}" sec:authorize="isAnonymous()"></a>
     </div>
 </div>
-<h1 th:utext="#{label.userInfo}"></h1>
 
-<form th:object="${user}">
+<div align="center">
+    <h1 th:utext="#{label.userInfo}"></h1>
 
-    <table>
-        <tr>
-            <td th:utext="#{label.firstName}"></td>
-            <td th:text="${user.firstName}"></td>
-        </tr>
-        <tr>
-            <td th:utext="#{label.lastName}"></td>
-            <td th:text="${user.lastName}"></td>
-        </tr>
-        <tr>
-            <td th:utext="#{label.email}"></td>
-            <td th:text="${user.email}"></td>
-        </tr>
-        <tr sec:authorize="hasRole('USER')">
-            <td th:utext="#{label.moneyAmount}"></td>
-            <td th:text="${user.moneyAmount}"></td>
-        </tr>
-    </table>
-</form>
+    <form th:object="${user}">
 
-
-<div sec:authorize="hasRole('USER')">
-
-<form th:action="@{/successful_replenish}" th:object="${money}" th:method="POST">
-    <table>
-        <tr>
-            <td th:utext="#{label.replenish}"></td>
-            <td>
-                <label><input type='number' name="money" value='' required></label>
-            </td>
-            <p style="color:red" th:if="${wrongAmount == true}" th:utext="#{label.incorrectMoney}"></p>
-            <p style="color:forestgreen" th:if="${success == true}" th:utext="#{label.successful.money}"></p>
-            <td><button type="submit" th:utext="#{label.confirm}"></button></td>
-        </tr>
-    </table>
-</form>
-
-    <p style="color:red" th:if="${notEnoughMoney == true}" th:utext="#{label.notEnoughMoney}"></p>
-    <p style="color:forestgreen" th:if="${bookingPaid == true}" th:utext="#{label.successful.pay}"></p>
-
-<div>
-    <br>
-    <a th:href="@{documents}" th:utext="#{label.docs}"></a>
-</div>
-
-<div th:object="${bookingList}">
-    <h2 th:if="${bookingList.size() == 0}" th:utext="#{label.bookingList.notFound}"></h2>
-    <div th:unless="${bookingList.size() == 0}">
-        <h2 th:utext="#{label.listBook}"></h2>
-        <table border="3">
-            <thead>
+        <table>
             <tr>
-                <th th:utext="#{label.id}"></th>
-                <th th:utext="#{label.cruise}"></th>
-                <th th:utext="#{label.price}"></th>
-                <th th:utext="#{label.status}"></th>
+                <td th:utext="#{label.firstName}"></td>
+                <td th:text="${user.firstName}"></td>
             </tr>
-            </thead>
-
-            <tbody>
-            <tr th:each="booking : ${bookingList}">
-                <td th:text="${booking.id}"></td>
-                <td th:text="${booking.cruise.route}"></td>
-                <td th:text="${booking.cruise.price}"></td>
-                <td th:text="${booking.status}"></td>
-                <td th:if="${booking.status == booking.status.CONFIRMED}"><a th:href="@{/booking_pay/{id}(id=${booking.id})}" th:utext="#{label.pay}"></a></td>
+            <tr>
+                <td th:utext="#{label.lastName}"></td>
+                <td th:text="${user.lastName}"></td>
             </tr>
-            </tbody>
+            <tr>
+                <td th:utext="#{label.email}"></td>
+                <td th:text="${user.email}"></td>
+            </tr>
+            <tr sec:authorize="hasRole('USER')">
+                <td th:utext="#{label.moneyAmount}"></td>
+                <td th:text="${user.moneyAmount}"></td>
+            </tr>
         </table>
+    </form>
 
+
+    <div sec:authorize="hasRole('USER')">
+
+    <form th:action="@{/successful_replenish}" th:object="${money}" th:method="POST">
+        <table>
+            <tr>
+                <td th:utext="#{label.replenish}"></td>
+                <td>
+                    <label><input type='number' name="money" value='' required></label>
+                </td>
+                <p style="color:red" th:if="${wrongAmount == true}" th:utext="#{label.incorrectMoney}"></p>
+                <p style="color:forestgreen" th:if="${success == true}" th:utext="#{label.successful.money}"></p>
+                <td><button type="submit" th:utext="#{label.confirm}"></button></td>
+            </tr>
+        </table>
+    </form>
+
+        <p style="color:red" th:if="${notEnoughMoney == true}" th:utext="#{label.notEnoughMoney}"></p>
+        <p style="color:forestgreen" th:if="${bookingPaid == true}" th:utext="#{label.successful.pay}"></p>
+
+    <div>
+        <br>
+        <a th:href="@{documents}" th:utext="#{label.docs}"></a>
     </div>
-</div>
+
+    <div th:object="${bookingList}">
+        <h2 th:if="${bookingList.size() == 0}" th:utext="#{label.bookingList.notFound}"></h2>
+        <div th:unless="${bookingList.size() == 0}">
+            <h2 th:utext="#{label.listBook}"></h2>
+            <table border="3">
+                <thead>
+                <tr>
+                    <th th:utext="#{label.id}"></th>
+                    <th th:utext="#{label.cruise}"></th>
+                    <th th:utext="#{label.price}"></th>
+                    <th th:utext="#{label.status}"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="booking : ${bookingList}">
+                    <td th:text="${booking.id}"></td>
+                    <td th:text="${booking.cruise.route}"></td>
+                    <td th:text="${booking.cruise.price}"></td>
+                    <td th:text="${booking.status}"></td>
+                    <td th:if="${booking.status == booking.status.CONFIRMED}"><a th:href="@{/booking_pay/{id}(id=${booking.id})}" th:utext="#{label.pay}"></a></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    </div>
 </div>
 </body>
 </html>

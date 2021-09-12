@@ -30,20 +30,22 @@
     </div>
 </div>
 
-<h1 th:utext="#{label.docs}"></h1>
+<div align="center">
+    <h1 th:utext="#{label.docs}"></h1>
 
-<p style="color:forestgreen" th:if="${docUploaded == true}" th:utext="#{label.successful.doc}"></p>
-<p style="color:red" th:if="${noDocs == true}" th:utext="#{label.noDocs}"></p>
+    <p style="color:forestgreen" th:if="${docUploaded == true}" th:utext="#{label.successful.doc}"></p>
+    <p style="color:red" th:if="${noDocs == true}" th:utext="#{label.noDocs}"></p>
 
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/doc_upload">
-            <input type="file" name="file" id="file" accept="image/jpeg, image/png" th:value="#{label.userInfo}"  />
-            <input type="submit" th:value="#{label.upload}" />
-    </form>
+    <div>
+        <form method="POST" enctype="multipart/form-data" action="/doc_upload">
+                <input type="file" name="file" id="file" accept="image/jpeg, image/png" th:value="#{label.userInfo}"  />
+                <input type="submit" th:value="#{label.upload}" />
+        </form>
+    </div>
+    <br>
+
+    <img th:if="${user.fileName != null}" th:src="@{/img/{filename}(filename = ${user.fileName})}" width="500px">
 </div>
-<br>
-
-<img th:if="${user.fileName != null}" th:src="@{/img/{filename}(filename = ${user.fileName})}" width="500px">
 
 </body>
 </html>

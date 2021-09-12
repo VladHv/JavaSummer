@@ -34,26 +34,32 @@
 
     <form action="#" th:action="@{/cruise_create}" th:object="${cruise}" method="post">
         <label for="passCapacity" th:utext="#{label.passCapacity}"></label>
-        <input type="number" th:field="*{passCapacity}" id="passCapacity">
+        <div>
+            <input type="number" th:field="*{passCapacity}" id="passCapacity">
+        </div>
         <p style="color:red" th:if="${#fields.hasErrors('passCapacity')}" th:utext="#{label.emptyField}"></p>
-        <br>
         <label for="route" th:utext="#{label.route}"></label>
-        <input type="text" th:field="*{route}" id="route">
+        <div>
+            <input type="text" th:field="*{route}" id="route">
+        </div>
         <p style="color:red" th:if="${#fields.hasErrors('route')}" th:utext="#{label.emptyField}"></p>
-        <br>
         <label for="start" th:utext="#{label.start}"></label>
-        <input type="datetime-local" th:field="*{start}" id="start">
+        <div>
+            <input type="datetime-local" th:field="*{start}" id="start">
+        </div>
         <p style="color:red" th:if="${#fields.hasErrors('start')}" th:utext="#{label.emptyField}"></p>
-        <br>
         <label for="end" th:utext="#{label.end}"></label>
-        <input type="datetime-local" th:field="*{end}" id="end">
+        <div>
+            <input type="datetime-local" th:field="*{end}" id="end">
+        </div>
         <p style="color:red" th:if="${#fields.hasErrors('end')}" th:utext="#{label.emptyField}"></p>
-        <br>
         <label for="price" th:utext="#{label.price}"></label>
-        <input type="number" th:field="*{price}" id="price">
+        <div>
+            <input type="number" th:field="*{price}" id="price">
+        </div>
         <p style="color:red" th:if="${#fields.hasErrors('price')}" th:utext="#{label.emptyField}"></p>
-        <br>
-        <button type="submit" th:utext="#{label.create}"></button>
+
+        <button style="margin-top: 10px" type="submit" th:utext="#{label.create}"></button>
     </form>
 </div>
 </body>

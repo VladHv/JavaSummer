@@ -29,9 +29,10 @@
         <a th:href="@{reg_form}" th:utext="#{label.reg}" sec:authorize="isAnonymous()"></a>
     </div>
 </div>
+<div align="center">
     <h3 th:utext="#{label.successful.register}"></h3>
     <br>
     <h4><a th:href="@{/main}" th:utext="#{label.ok}"></a></h4>
-
+</div>
 </body>
 </html>
