@@ -5,6 +5,7 @@ import com.project.cruiser.entity.User;
 import com.project.cruiser.services.BookingListService;
 import com.project.cruiser.services.CruiseService;
 import com.project.cruiser.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,12 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class CruiseController {
 
@@ -50,23 +53,24 @@ public class CruiseController {
     }
 
     @GetMapping("cruise_book/{id}")
-    public String bookCruise(@PathVariable("id") Long id, Principal principal, Model model){
+    public String bookCruise(@PathVariable("id") Long id, Principal principal,
+                             RedirectAttributes redirectAttributes){
         User user = userService.findByName(principal.getName());
         Cruise cruise = cruiseService.findById(id);
+        log.info("User {} try to book cruise {}", user, cruise);
         if (bookingListService.isCruiseAlreadyBookedByUser(user, cruise)){
-            List<Cruise> cruises = cruiseService.findAll();
-            model.addAttribute("cruises", cruises);
-            model.addAttribute("alreadyBooked", true);
-            return "list_of_cruises";
+            log.warn("Cruise {} already booked by user {}", cruise, user);
+            redirectAttributes.addFlashAttribute("alreadyBooked", true);
+            return "redirect:/list_of_cruises";
         }
         if( !cruiseService.hasFreePlace(cruise) ){
-            List<Cruise> cruises = cruiseService.findAll();
-            model.addAttribute("cruises", cruises);
-            model.addAttribute("noFreePlace", true);
-            return "list_of_cruises";
+            log.warn("Cruise {} has no free places", cruise);
+            redirectAttributes.addFlashAttribute("noFreePlace", true);
+            return "redirect:/list_of_cruises";
         }
         bookingListService.bookCruise(cruise, user);
-        return "successfully_booked";
+        redirectAttributes.addFlashAttribute("successfullyBooked", true);
+        return "redirect:/list_of_cruises";
     }
 
     @GetMapping("/cruise_create")
@@ -83,6 +87,7 @@ public class CruiseController {
     @GetMapping("cruise_delete/{id}")
     public String deleteCruise(@PathVariable("id") Long id){
         cruiseService.deleteById(id);
+        log.info("Admin deleted cruise # {}", id);
         return "redirect:/list_of_cruises";
     }
 
@@ -96,6 +101,7 @@ public class CruiseController {
     @PostMapping("/cruise_update")
     public String updateCruise(Cruise cruise) {
         cruiseService.update(cruise);
+        log.info("Admin update cruise # {}", cruise.getId());
         return "redirect:/list_of_cruises";
     }
 

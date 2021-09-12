@@ -56,11 +56,10 @@ public class UserService {
 
     @Transactional
     public User addMoney(User user, Integer money) {
-        //todo saving of uploadedUser, NOT user
         User updatedUser = userRepository.findByEmail(user.getEmail());
         Integer updatedMoneyAmount = updatedUser.getMoneyAmount() + money;
-        user.setMoneyAmount(updatedMoneyAmount);
-        return userRepository.save(user);
+        updatedUser.setMoneyAmount(updatedMoneyAmount);
+        return userRepository.save(updatedUser);
     }
 
     public boolean isUserAlreadyExist(User user) {

@@ -7,6 +7,7 @@ import com.project.cruiser.entity.User;
 import com.project.cruiser.services.BookingListService;
 import com.project.cruiser.services.CruiseService;
 import com.project.cruiser.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Controller
 public class BookingController {
 
@@ -76,12 +78,14 @@ public class BookingController {
     @GetMapping("booking_confirm/{id}")
     public String confirmBook(@PathVariable("id") Long id) {
         bookingListService.confirmBookById(id);
+        log.info("Admin confirm booking # {}", id);
         return "redirect:/booking_list";
     }
 
     @GetMapping("booking_reject/{id}")
     public String rejectBook(@PathVariable("id") Long id) {
         bookingListService.rejectBookById(id);
+        log.info("Admin reject booking # {}", id);
         return "redirect:/booking_list";
     }
 

@@ -64,12 +64,14 @@
                 <label><input type='number' name="money" value='' required></label>
             </td>
             <p style="color:red" th:if="${wrongAmount == true}" th:utext="#{label.incorrectMoney}"></p>
+            <p style="color:forestgreen" th:if="${success == true}" th:utext="#{label.successful.money}"></p>
             <td><button type="submit" th:utext="#{label.confirm}"></button></td>
         </tr>
     </table>
 </form>
 
     <p style="color:red" th:if="${notEnoughMoney == true}" th:utext="#{label.notEnoughMoney}"></p>
+    <p style="color:forestgreen" th:if="${bookingPaid == true}" th:utext="#{label.successful.pay}"></p>
 
 <div>
     <br>

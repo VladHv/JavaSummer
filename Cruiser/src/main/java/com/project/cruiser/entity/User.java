@@ -40,6 +40,7 @@ public class User {
 
     @Column(nullable = false, length = 64)
     @Size(min = 1, max = 64, message = "Input password, please")
+    @ToString.Exclude
     private String password;
 
     @Column(name = "money_amount", nullable = false)
@@ -54,6 +55,7 @@ public class User {
     private String fileName;
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private Set<BookingList> bookingLists;
 
 

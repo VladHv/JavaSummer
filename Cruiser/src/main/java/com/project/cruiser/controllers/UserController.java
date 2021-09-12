@@ -4,14 +4,13 @@ import com.project.cruiser.entity.BookingList;
 import com.project.cruiser.entity.User;
 import com.project.cruiser.services.BookingListService;
 import com.project.cruiser.services.UserService;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,12 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Set;
 
 @Controller
+@Slf4j
 public class UserController {
 
     @Value("${upload.path}")
@@ -47,14 +44,18 @@ public class UserController {
     }
 
     @PostMapping("/process_register")
-    public String processRegister(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
+    public String processRegister(@ModelAttribute("user") @Valid User user,
+                                  BindingResult bindingResult, Model model) {
         if (userService.isUserAlreadyExist(user)) {
+            log.warn("Guest try to register new account with already used email {}", user.getEmail());
             model.addAttribute("userExist", true);
             return "reg_form";
         }
         else if(bindingResult.hasErrors())
             return "reg_form";
+
         userService.save(user);
+        log.info("New user {} registrated", user);
         return "process_register";
     }
 
@@ -68,38 +69,35 @@ public class UserController {
     }
 
     @PostMapping("/successful_replenish")
-    public String addMoney(@ModelAttribute("money") Integer money, Model model,
-                           @AuthenticationPrincipal UserDetails currentUser) {
+    public String addMoney(@ModelAttribute("money") Integer money,
+                           @AuthenticationPrincipal UserDetails currentUser,
+                           RedirectAttributes redirectAttributes) {
         User user = userService.findByName(currentUser.getUsername());
         if(money <= 0){
-            model.addAttribute("user", user);
-            Set<BookingList> bookingList = bookingListService.getUserBookingList(currentUser.getUsername());
-            model.addAttribute("bookingList", bookingList);
-            model.addAttribute("wrongAmount", true);
-            return "user_info";
+            redirectAttributes.addFlashAttribute("wrongAmount", true);
+            return "redirect:user_info";
         }
-
+        redirectAttributes.addFlashAttribute("success", true);
         userService.addMoney(user, money);
-        return "successful_replenish";
+        log.info("User {} topped up the account for {}", user, money);
+        return "redirect:user_info";
     }
 
     @GetMapping("booking_pay/{id}")
-    public String payBookingById(@PathVariable("id") Long id, Model model,
-                                 @AuthenticationPrincipal UserDetails currentUser) {
+    public String payBookingById(@PathVariable("id") Long id,
+                                 @AuthenticationPrincipal UserDetails currentUser,
+                                 RedirectAttributes redirectAttributes) {
         User user = userService.findByName(currentUser.getUsername());
-        final Integer fixedMoneyAmount = user.getMoneyAmount();
         try {
             userService.payBooking(id, user);
         } catch (Exception e) {
-            user.setMoneyAmount(fixedMoneyAmount);
-            model.addAttribute("user", user);
-            Set<BookingList> bookingList = bookingListService.getUserBookingList(currentUser.getUsername());
-            model.addAttribute("bookingList", bookingList);
-            model.addAttribute("notEnoughMoney", true);
-            return "user_info";
+            log.warn("User {} have not enough money ({}) on account to pay booking #{}",
+                                    user, user.getMoneyAmount(), id);
+            redirectAttributes.addFlashAttribute("notEnoughMoney", true);
+            return "redirect:/user_info";
         }
-
-        return "successfully_paid";
+        redirectAttributes.addFlashAttribute("bookingPaid", true);
+        return "redirect:/user_info";
     }
 
     @GetMapping("documents")
@@ -114,22 +112,24 @@ public class UserController {
     public String documentSave(@RequestParam("file") MultipartFile file,
                                @AuthenticationPrincipal UserDetails currentUser,
                                RedirectAttributes redirectAttributes) throws IOException {
-
-        if (file !=null){
+        if(file.isEmpty()){
+            redirectAttributes.addFlashAttribute("noDocs", true);
+            return "redirect:documents";
+        }
+        if ( !file.isEmpty() && !file.getOriginalFilename().isEmpty()){
             File uploadDir = new File(uploadPath);
 
             if(!uploadDir.exists()){
                 uploadDir.mkdir();
             }
 
-
             String fileName = file.getOriginalFilename();
 
             file.transferTo(new File(uploadPath + "/" + fileName));
             User user = userService.findByName(currentUser.getUsername());
             userService.addFileName(fileName, user);
+            redirectAttributes.addFlashAttribute("docUploaded", true);
         }
-
 
         return "redirect:documents";
     }

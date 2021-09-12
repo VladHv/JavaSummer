@@ -46,6 +46,7 @@ public class Cruise {
     private Integer freePlaces;
 
     @OneToMany(mappedBy = "cruise")
+    @ToString.Exclude
     private Set<BookingList> bookingList;
 
 

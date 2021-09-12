@@ -4,7 +4,7 @@
       lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:utext="#{label.mainPage}"></title>
+    <title th:utext="#{label.docs}"></title>
 </head>
 <body>
 <div style="padding:5px;margin:5px 0px;background:#ccc;">
@@ -32,9 +32,8 @@
 
 <h1 th:utext="#{label.docs}"></h1>
 
-<div th:if="${message}">
-    <h2 th:text="${message}"/>
-</div>
+<p style="color:forestgreen" th:if="${docUploaded == true}" th:utext="#{label.successful.doc}"></p>
+<p style="color:red" th:if="${noDocs == true}" th:utext="#{label.noDocs}"></p>
 
 <div>
     <form method="POST" enctype="multipart/form-data" action="/doc_upload">

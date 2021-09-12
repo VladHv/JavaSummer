@@ -84,6 +84,7 @@
 
 <p style="color:red" th:if="${alreadyBooked == true}" th:utext="#{label.alreadyBooked}"></p>
 <p style="color:red" th:if="${noFreePlace == true}" th:utext="#{label.noFreePlace}"></p>
+<p style="color:green" th:if="${successfullyBooked == true}" th:utext="#{label.successful.book}"></p>
 
 <script type="text/javascript">
     function clearSearch() {
