@@ -27,6 +27,7 @@ public class User {
     private Long id;
 
     @Column
+    @NotEmpty(message = "Please, input your email")
     @Email(message = "Email format not valid")
     private String email;
 

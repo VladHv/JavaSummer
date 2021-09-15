@@ -46,16 +46,19 @@ public class UserController {
     @PostMapping("/process_register")
     public String processRegister(@ModelAttribute("user") @Valid User user,
                                   BindingResult bindingResult, Model model) {
-        if (userService.isUserAlreadyExist(user)) {
-            log.warn("Guest try to register new account with already used email {}", user.getEmail());
+
+        if (bindingResult.hasErrors()) {
+            return "reg_form";
+        }
+
+        boolean isUserSaved = userService.save(user);
+        if(!isUserSaved){
+            log.warn("Guest try to register new account with already exist email {}", user.getEmail());
             model.addAttribute("userExist", true);
             return "reg_form";
         }
-        else if(bindingResult.hasErrors())
-            return "reg_form";
 
-        userService.save(user);
-        log.info("New user {} registrated", user);
+        log.info("New user {} registrated", user.getEmail());
         return "process_register";
     }
 

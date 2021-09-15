@@ -38,12 +38,19 @@ public class UserService {
                 .orElseThrow(RuntimeException::new);
     }
 
-    public User save(User user) {
+    public boolean save(User user) {
+        User userFromDb = userRepository.findByEmail(user.getEmail());
+
+        if (userFromDb != null){
+            return false;
+        }
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(RoleType.USER);
         user.setMoneyAmount(0);
-        return userRepository.save(user);
+        userRepository.save(user);
+        return true;
     }
 
     public void deleteById(Long id) {
@@ -60,10 +67,6 @@ public class UserService {
         Integer updatedMoneyAmount = updatedUser.getMoneyAmount() + money;
         updatedUser.setMoneyAmount(updatedMoneyAmount);
         return userRepository.save(updatedUser);
-    }
-
-    public boolean isUserAlreadyExist(User user) {
-        return userRepository.findByEmail(user.getEmail()) != null;
     }
 
 
