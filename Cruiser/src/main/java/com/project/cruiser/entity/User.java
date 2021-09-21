@@ -39,7 +39,7 @@ public class User {
     @NotEmpty(message = "Please, input your last name")
     private String lastName;
 
-    @Column(nullable = false, length = 64)
+    @Column
     @Size(min = 1, max = 64, message = "Input password, please")
     @ToString.Exclude
     private String password;
